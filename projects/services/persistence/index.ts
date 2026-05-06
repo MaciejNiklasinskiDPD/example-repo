@@ -1,0 +1,26 @@
+import {
+    Spanner,
+    Database as SpannerDatabase,
+    Instance,
+} from "@google-cloud/spanner";
+import { IDatabase, IQuery } from "example-repo-common";
+
+export default class Database implements IDatabase {
+    private instance: Instance;
+    private database: SpannerDatabase;
+
+    async connect() {
+        const spanner = new Spanner({
+            projectId: process.env.SPANNER_PROJECT_ID || ""
+        });
+
+        this.instance = spanner.instance(process.env.SPANNER_INSTANCE_NAME || "");
+        this.database = this.instance.database(process.env.SPANNER_DATABASE_NAME || "");
+    }
+
+    async run<T>(query: IQuery): Promise<T[]> {
+        const [rows] = await this.database.run({ ...query, json: true });
+        return rows as unknown as T[];
+    }
+}
+
