@@ -3,11 +3,11 @@ import {
     Database as SpannerDatabase,
     Instance,
 } from "@google-cloud/spanner";
-import { IDatabase, IQuery } from "example-repo-common";
+import { IDatabase, IQuery } from "../common";
 
-export default class Database implements IDatabase {
-    private instance: Instance;
-    private database: SpannerDatabase;
+class Database implements IDatabase {
+    private instance: Instance | undefined;
+    private database: SpannerDatabase | undefined;
 
     async connect() {
         const spanner = new Spanner({
@@ -19,8 +19,12 @@ export default class Database implements IDatabase {
     }
 
     async run<T>(query: IQuery): Promise<T[]> {
+        if (!this.database)
+            throw new Error("Not connected with database");
+
         const [rows] = await this.database.run({ ...query, json: true });
         return rows as unknown as T[];
     }
 }
 
+export const getDatabase = () => new Database() as IDatabase;

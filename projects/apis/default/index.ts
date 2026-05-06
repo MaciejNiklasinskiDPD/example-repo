@@ -1,5 +1,5 @@
 import getRobotTypeByCode from "../../domain/features/getRobotTypeByCode";
-import { getServer } from "../../services";
+import { getServer } from "../";
 
 const server = getServer();
 

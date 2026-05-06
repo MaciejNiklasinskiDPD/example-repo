@@ -11,7 +11,7 @@ import {
     IResponse,
     IServer,
     RouteHandler,
-} from "example-repo-common";
+} from "../common";
 
 class RequestAdapter implements IRequest {
     params: Record<string, string>;
@@ -50,7 +50,7 @@ class ResponseAdapter implements IResponse {
     }
 }
 
-export default class Server implements IServer {
+class Server implements IServer {
     private app: Express;
     private httpServer?: HttpServer;
 
@@ -96,3 +96,6 @@ export default class Server implements IServer {
         });
     }
 }
+
+
+export const getServer = () => new Server();
