@@ -1,6 +1,10 @@
+import { getLogger, getMessagePublisher } from "../../infrastructure";
 import getRobotTypeByCode from "../../domain/features/getRobotTypeByCode";
 
-const printRobotType = async (message: any) => {
+const messagePublisher = getMessagePublisher();
+const logger = getLogger();
+
+const sendRobotType = async (message: any) => {
     let robotTypeCode: string | undefined;
     if (message?.data) {
         const decoded = Buffer.from(message.data, "base64").toString("utf-8");
@@ -15,11 +19,15 @@ const printRobotType = async (message: any) => {
     robotTypeCode = robotTypeCode || message?.attributes?.robotTypeCode;
 
     if (!robotTypeCode) {
-        console.error("robotTypeCode is required");
+        logger.log("error", "robotTypeCode is required");
         return;
     }
 
     const robotType = await getRobotTypeByCode(robotTypeCode);
-    console.log(JSON.stringify(robotType));
+    logger.log("info", `robotType ${robotType} found for robotTypeCode ${robotTypeCode}`);
+
+    await messagePublisher.publishMessage("SOME_TOPIC_NAME", { attributes: { robotType, robotTypeCode } });
+
+
 };
-export default printRobotType;
+export default sendRobotType;

@@ -1,3 +1,5 @@
+import { HttpMethod, LogLevel, RouteHandler, Message } from "./types";
+
 interface IQuery {
     sql: string;
     params?: any;
@@ -8,7 +10,9 @@ interface IDatabase {
     run<T>(query: IQuery): Promise<Array<T>>;
 }
 
-type HttpMethod = "get" | "post" | "put" | "delete" | "patch";
+interface IMessagePublisher {
+    publishMessage(topic: string, message: Message): Promise<void>
+}
 
 interface IRequest {
     params: Record<string, string>;
@@ -23,12 +27,14 @@ interface IResponse {
     send(body?: any): IResponse;
 }
 
-type RouteHandler = (req: IRequest, res: IResponse) => void | Promise<void>;
-
 interface IServer {
     route(method: HttpMethod, path: string, handler: RouteHandler): void;
     start(port: number): Promise<void>;
     stop(): Promise<void>;
+}
+
+interface ILogger {
+    log: (level: LogLevel, message: string) => void
 }
 
 export {
@@ -37,6 +43,6 @@ export {
     IRequest,
     IResponse,
     IServer,
-    HttpMethod,
-    RouteHandler,
+    ILogger,
+    IMessagePublisher,
 };
