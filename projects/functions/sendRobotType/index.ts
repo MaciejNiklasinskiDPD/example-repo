@@ -1,10 +1,15 @@
-import { getLogger, getMessagePublisher } from "../../infrastructure";
-import getRobotTypeByCode from "../../domain/features/getRobotTypeByCode";
+import { services } from "domains";
+import { getDatabase, getLogger, getMessagePublisher } from "resources";
 
 const messagePublisher = getMessagePublisher();
 const logger = getLogger();
 
 const sendRobotType = async (message: any) => {
+
+    const db = getDatabase();
+
+    await db.connect();
+    
     let robotTypeCode: string | undefined;
     if (message?.data) {
         const decoded = Buffer.from(message.data, "base64").toString("utf-8");
@@ -23,7 +28,7 @@ const sendRobotType = async (message: any) => {
         return;
     }
 
-    const robotType = await getRobotTypeByCode(robotTypeCode);
+    const robotType = await services.getRobotTypeByCode(db, robotTypeCode);
     logger.log("info", `robotType ${robotType} found for robotTypeCode ${robotTypeCode}`);
 
     await messagePublisher.publishMessage("SOME_TOPIC_NAME", { attributes: { robotType, robotTypeCode } });

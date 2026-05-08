@@ -3,7 +3,7 @@ import {
     Database as SpannerDatabase,
     Instance,
 } from "@google-cloud/spanner";
-import { IDatabase, IQuery } from "../common";
+import { IDatabase, IQuery } from "common";
 
 class Database implements IDatabase {
     private instance: Instance | undefined;
@@ -27,4 +27,5 @@ class Database implements IDatabase {
     }
 }
 
-export const getDatabase = () => new Database() as IDatabase;
+// Would this be spanner in this case? As in a spanner instance and not IDatabase?
+export const getDatabase = () => new Database() as IDatabase; 

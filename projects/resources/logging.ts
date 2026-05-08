@@ -1,6 +1,6 @@
 import winston from 'winston';
 import { LoggingWinston } from '@google-cloud/logging-winston';
-import { ILogger } from '../common';
+import { ILogger } from "common";
 
 const loggingWinston = new LoggingWinston();
 

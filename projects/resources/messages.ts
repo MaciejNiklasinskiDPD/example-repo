@@ -1,5 +1,5 @@
 import { PubSub } from "@google-cloud/pubsub";
-import { IMessagePublisher, Message } from "../common";
+import { IMessagePublisher, Message } from "common";
 
 const pubSubClient = new PubSub({
     projectId: process.env.PUB_SUB_PROJECT_ID,

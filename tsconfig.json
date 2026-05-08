@@ -1,12 +1,19 @@
 {
   "compilerOptions": {
+    "paths": {
+      "apis": ["./projects/apis/index.ts"],
+      "common": ["./projects/common/index.ts"],
+      "functions": ["./projects/functions/index.ts"],
+      "domains": ["./projects/domains/index.ts"],
+      "resources": ["./projects/resources/index.ts"],
+    },
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["ES2022"],
     "types": ["node"],
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -17,6 +24,6 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["projects/**/*"],
+  "exclude": ["node_modules", "dist"],
 }

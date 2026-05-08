@@ -11,7 +11,7 @@ import {
     IResponse,
     IServer,
     RouteHandler,
-} from "../common";
+} from "common";
 
 class RequestAdapter implements IRequest {
     params: Record<string, string>;

@@ -1,4 +1,4 @@
-import { IDatabase } from "../../../common";
+import { IDatabase } from "common";
 
 const table = "robot_type";
 
@@ -22,6 +22,4 @@ export const getRobotTypeByCode = async (db: IDatabase, robotTypeCode: string): 
     return robotType;
 };
 
-module.exports = {
-    getRobotTypeByCode,
-};
+export default { getRobotTypeByCode };
